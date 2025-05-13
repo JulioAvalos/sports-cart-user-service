@@ -1,5 +1,4 @@
 INSERT INTO users (
-  username,
   email,
   password_hash,
   first_name,
@@ -8,27 +7,27 @@ INSERT INTO users (
   address
 ) VALUES
   (
-    'alice123',
     'alice@example.com',
-    '$2a$10$DowJ8uFQbN7lYhKk8JZRee1QoXbh6xM6P7RzYQG8/Za1Xl5NaLc9O',  -- BCrypt("password1")
+    -- BCrypt("Str0ngP@ssw0rd2025!")
+    '$2b$12$IvOoJvbCyDz27F9yy0irJO7fSmKMfkF/pKb5DMlpzbzWlb8XRMzLu',
     'Alice',
     'Anderson',
     '1990-01-15',
     '123 Main St'
   ),
   (
-    'bob456',
     'bob@example.com',
-    '$2a$10$u4rXIYk5kZ9tD0YTW0nQheOqZpZGCk5Y.BEO1HDuDpGbTAwHj8v7C',  -- BCrypt("password2")
+    -- BCrypt("C0mpl3xK3y!@")
+    '$2b$12$0f6xumzsrETWO4O3SSscju0SYaXmIuNj0D6FtE3Ofm6ZJnYjWQbbm',
     'Bob',
     'Baker',
     '1985-06-20',
     '456 Oak Ave'
   ),
   (
-    'dude',
     'dude@example.com',
-    '$2a$10$7Yk5Z2xVfH9dJ0lQpR3tOu1LmN5BaC4XyZ0WbH1gIjKlMnOpQrStU',  -- BCrypt("password3")
+    -- BCrypt("Unbr34k4bl3K!@")
+    '$2b$12$4eP/k2Ly7qxDP5IKyc1bAOOn71TZaXgykR6DHSq1pANyy/nTJRF4W',
     'The',
     'Dude',
     '1990-05-05',
