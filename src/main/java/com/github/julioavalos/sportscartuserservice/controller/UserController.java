@@ -45,8 +45,8 @@ public class UserController {
     }
 
 
-    @PutMapping("/{id}")
-    public ResponseEntity<?> updateProfile(@PathVariable Long id, @RequestBody UpdateDto dto) {
+    @PatchMapping("/{id}")
+    public ResponseEntity<?> patchProfile(@PathVariable Long id, @RequestBody UpdateDto dto) {
         User user = svc.findById(id);
 
         String authenticatedEmail = SecurityContextHolder.getContext()
@@ -57,8 +57,9 @@ public class UserController {
             return ResponseEntity.status(403).body("Access denied");
         }
 
-        User updated = svc.update(id, dto);
+        User updated = svc.partialUpdate(id, dto); // <- Rename the service method if you prefer clarity
         return ResponseEntity.ok(updated);
     }
+
 
 }
