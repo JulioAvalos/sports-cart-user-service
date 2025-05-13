@@ -4,13 +4,10 @@ import com.github.julioavalos.sportscartuserservice.dto.RegisterDto;
 import com.github.julioavalos.sportscartuserservice.dto.UpdateDto;
 import com.github.julioavalos.sportscartuserservice.model.User;
 import com.github.julioavalos.sportscartuserservice.service.UserService;
-import com.github.julioavalos.sportscartuserservice.util.JwtUtils;
-import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Map;
+import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 @RestController
@@ -18,7 +15,6 @@ import java.util.Map;
 public class UserController {
 
     private final UserService svc;
-    private final JwtUtils jwtUtils;
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterDto dto) {
@@ -34,14 +30,35 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> getProfile(@PathVariable Long id) {
-        User user = svc.findById(id);
-        return ResponseEntity.ok(user);
+    public ResponseEntity<?> getProfile(@PathVariable Long id) {
+        User requestedUser = svc.findById(id);
+
+        String authenticatedEmail = SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getName();
+
+        if (!requestedUser.getEmail().equals(authenticatedEmail)) {
+            return ResponseEntity.status(403).body("Access denied");
+        }
+
+        return ResponseEntity.ok(requestedUser);
     }
 
+
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateProfile(@PathVariable Long id, @RequestBody UpdateDto dto) {
+    public ResponseEntity<?> updateProfile(@PathVariable Long id, @RequestBody UpdateDto dto) {
+        User user = svc.findById(id);
+
+        String authenticatedEmail = SecurityContextHolder.getContext()
+                .getAuthentication()
+                .getName();
+
+        if (!user.getEmail().equals(authenticatedEmail)) {
+            return ResponseEntity.status(403).body("Access denied");
+        }
+
         User updated = svc.update(id, dto);
         return ResponseEntity.ok(updated);
     }
+
 }
