@@ -1,6 +1,5 @@
 package com.github.julioavalos.sportscartuserservice.dto;
 
-import com.github.julioavalos.sportscartuserservice.model.User;
 import lombok.*;
 
 import java.time.LocalDate;
@@ -38,13 +37,4 @@ public class RegisterDto {
     @NotBlank(message = "Address is required")
     private String address;
 
-    public User toUser() {
-        return User.builder()
-                .email(email)
-                .firstName(firstName)
-                .lastName(lastName)
-                .birthdate(birthdate)
-                .address(address)
-                .build();
-    }
 }
