@@ -42,6 +42,9 @@ public class UserService {
         if (dto.getAddress() != null) {
             user.setAddress(dto.getAddress());
         }
+        if (dto.getBirthdate() != null) {
+            user.setBirthdate(dto.getBirthdate());
+        }
 
         return repo.save(user);
     }
