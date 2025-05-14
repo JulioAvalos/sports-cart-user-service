@@ -1,5 +1,6 @@
 package com.github.julioavalos.sportscartuserservice.util;
 
+import com.github.julioavalos.sportscartuserservice.dto.CustomUserDetails;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -22,8 +23,15 @@ public class JwtUtils {
     private long jwtExpirationMs;
 
     public String generateJwtToken(UserDetails userDetails) {
+        if (!(userDetails instanceof CustomUserDetails customUser)) {
+            throw new IllegalArgumentException("UserDetails must be an instance of CustomUserDetails");
+        }
+
         return Jwts.builder()
-                .setSubject(userDetails.getUsername())
+                .setSubject(customUser.getUsername())
+                .claim("id", customUser.getId())
+                .claim("firstName", customUser.getFirstName())
+                .claim("lastName", customUser.getLastName())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date((new Date()).getTime() + jwtExpirationMs))
                 .signWith(Keys.hmacShaKeyFor(jwtSecret.getBytes()), SignatureAlgorithm.HS256)
